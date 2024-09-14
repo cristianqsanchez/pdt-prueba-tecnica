@@ -30,13 +30,37 @@ class FlightController extends Controller
 
             if (isset($flights['data']['Seg1'])) {
                 $flightsData = $flights['data']['Seg1'];
-                return response()->json($flightsData, 200);
+                $formattedFlights = $this->formatFlights($flightsData);
+                return response()->json($formattedFlights, 200);
             } else {
                 return response()->json(['error' => 'Flights data not found'], 404);
             }
-
-        } catch(\Exception) {
+        } catch (\Exception) {
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    private function formatFlights($flightsData)
+    {
+        $formattedFlights = [];
+
+        foreach ($flightsData as $flight) {
+            foreach ($flight['segments'] as $segment) {
+                $formattedFlights[] = [
+                    'dateOfDeparture'     => $segment['productDateTime']['dateOfDeparture'],
+                    'timeOfDeparture'     => $segment['productDateTime']['timeOfDeparture'],
+                    'dateOfArrival'       => $segment['productDateTime']['dateOfArrival'],
+                    'timeOfArrival'       => $segment['productDateTime']['timeOfArrival'],
+                    'marketingCarrier'    => $segment['companyId']['marketingCarrier'],
+                    'flightOrtrainNumber' => $segment['flightOrtrainNumber'],
+                    'locationId' => [
+                        'departureCity' => $segment['location'][0]['locationId'],
+                        'arrivalCity'   => $segment['location'][1]['locationId']
+                    ]
+                ];
+            }
+        }
+
+        return $formattedFlights;
     }
 }
