@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class FlightController extends Controller
@@ -19,15 +20,19 @@ class FlightController extends Controller
             'itinerary.*.hour'          => 'required|date'
         ]);
 
-        try {
+        $cacheKey = $this->generateCacheKey($request);
+
+        $flights = Cache::remember($cacheKey, 1440, function () use ($request) {
             $response = Http::post('https://staging.travelflight.aiop.com.co/api/flights', $request->all());
 
             if ($response->failed()) {
                 return response()->json(['error' => 'Error fetching flights'], 500);
             }
 
-            $flights = $response->json();
+            return $response->json();
+        });
 
+        try {
             if (isset($flights['data']['Seg1'])) {
                 $flightsData = $flights['data']['Seg1'];
                 $formattedFlights = $this->formatFlights($flightsData);
@@ -62,5 +67,10 @@ class FlightController extends Controller
         }
 
         return $formattedFlights;
+    }
+
+    private function generateCacheKey(Request $request)
+    {
+        return md5(json_encode($request->all()));
     }
 }
