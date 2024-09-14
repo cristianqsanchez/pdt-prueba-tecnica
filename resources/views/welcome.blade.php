@@ -9,7 +9,7 @@
         @vite('resources/js/main.tsx')
         @vite('resources/css/app.css')
     </head>
-    <body>
+    <body class="bg-background text-foreground">
         <div id="root"></div>
     </body>
 </html>
