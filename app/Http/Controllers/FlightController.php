@@ -28,7 +28,13 @@ class FlightController extends Controller
 
             $flights = $response->json();
 
-            return response()->json($flights, 200);
+            if (isset($flights['data']['Seg1'])) {
+                $flightsData = $flights['data']['Seg1'];
+                return response()->json($flightsData, 200);
+            } else {
+                return response()->json(['error' => 'Flights data not found'], 404);
+            }
+
         } catch(\Exception) {
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
