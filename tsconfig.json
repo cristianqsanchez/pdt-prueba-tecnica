@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./resources/js",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "resources/**/*.ts",
+    "resources/**/*.tsx",
+    "resources/**/*.js",
+    "resources/**/*.jsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "vendor"
+  ]
+}
+
