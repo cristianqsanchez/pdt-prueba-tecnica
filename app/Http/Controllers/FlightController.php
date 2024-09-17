@@ -57,6 +57,7 @@ class FlightController extends Controller
                     'dateOfArrival'       => $segment['productDateTime']['dateOfArrival'],
                     'timeOfArrival'       => $segment['productDateTime']['timeOfArrival'],
                     'marketingCarrier'    => $segment['companyId']['marketingCarrier'],
+                    'companyName'         => $segment['companyName'],
                     'flightOrtrainNumber' => $segment['flightOrtrainNumber'],
                     'locationId' => [
                         'departureCity' => $segment['location'][0]['locationId'],
