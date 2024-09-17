@@ -7,5 +7,6 @@ export default antfu({
     'ts/consistent-type-definitions': ['warn', 'type'],
     'style/brace-style': ['off'],
     'antfu/top-level-function': ['off'],
+    'perfectionist/sort-imports': ['off'],
   },
 })
