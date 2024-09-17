@@ -7,6 +7,11 @@
     <h2>Prueba Técnica</h2>
 </div>
 
+- [Resumen](#resumen)
+- [Pasos a seguir](#pasos-a-seguir)
+- [Estructura](#estructura)
+- [Tecnologías](#tecnologías)
+
 ### Resumen
 Sistema de busqueda y reserva de vuelos. Backend construido en Laravel que expone 3
 endpoints para la busqueda de aeropuertos, vuelos diponibles y crear reservaciones.
