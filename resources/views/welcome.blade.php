@@ -9,7 +9,7 @@
         @vite('resources/js/main.tsx')
         @vite('resources/css/app.css')
     </head>
-    <body class="bg-background text-foreground">
+    <body class="mx-8 md:mx-12 bg-background text-foreground">
         <div id="root"></div>
     </body>
 </html>
