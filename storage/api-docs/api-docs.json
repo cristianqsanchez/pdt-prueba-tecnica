@@ -1,0 +1,481 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Flights API",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api"
+        }
+    ],
+    "paths": {
+        "/airports": {
+            "post": {
+                "tags": [
+                    "Airports"
+                ],
+                "summary": "Get Airports by Code",
+                "description": "Fetches a list of airports based on the provided city.",
+                "operationId": "getAirportsByCode",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "code"
+                                ],
+                                "properties": {
+                                    "code": {
+                                        "description": "Airport code",
+                                        "type": "string",
+                                        "example": "New York"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": "JFK"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "John F. Kennedy International Airport"
+                                            },
+                                            "city": {
+                                                "type": "string",
+                                                "example": "New York"
+                                            },
+                                            "country": {
+                                                "type": "string",
+                                                "example": "USA"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error fetching airports"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/flights": {
+            "post": {
+                "tags": [
+                    "Flights"
+                ],
+                "summary": "Get Flights",
+                "description": "Fetches a list of flights based on search parameters.",
+                "operationId": "getFlights",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "searchs",
+                                    "qtyPassengers",
+                                    "adult",
+                                    "itinerary"
+                                ],
+                                "properties": {
+                                    "searchs": {
+                                        "description": "Number of searches",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "qtyPassengers": {
+                                        "description": "Quantity of passengers",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "adult": {
+                                        "description": "Number of adults",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "itinerary": {
+                                        "description": "List of itinerary segments",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "departureCity",
+                                                "arrivalCity",
+                                                "hour"
+                                            ],
+                                            "properties": {
+                                                "departureCity": {
+                                                    "description": "City of departure",
+                                                    "type": "string",
+                                                    "example": "JFK"
+                                                },
+                                                "arrivalCity": {
+                                                    "description": "City of arrival",
+                                                    "type": "string",
+                                                    "example": "LAX"
+                                                },
+                                                "hour": {
+                                                    "description": "Date and time of the flight",
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-18T10:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "dateOfDeparture": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2024-09-18"
+                                            },
+                                            "timeOfDeparture": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "example": "10:30:00"
+                                            },
+                                            "dateOfArrival": {
+                                                "type": "string",
+                                                "format": "date",
+                                                "example": "2024-09-18"
+                                            },
+                                            "timeOfArrival": {
+                                                "type": "string",
+                                                "format": "time",
+                                                "example": "13:30:00"
+                                            },
+                                            "marketingCarrier": {
+                                                "type": "string",
+                                                "example": "AA"
+                                            },
+                                            "companyName": {
+                                                "type": "string",
+                                                "example": "American Airlines"
+                                            },
+                                            "flightOrtrainNumber": {
+                                                "type": "string",
+                                                "example": "AA123"
+                                            },
+                                            "locationId": {
+                                                "properties": {
+                                                    "departureCity": {
+                                                        "type": "string",
+                                                        "example": "JFK"
+                                                    },
+                                                    "arrivalCity": {
+                                                        "type": "string",
+                                                        "example": "LAX"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Flights data not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Flights data not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error fetching flights"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations": {
+            "post": {
+                "tags": [
+                    "Reservations"
+                ],
+                "summary": "Create a reservation",
+                "description": "Stores a new reservation along with itineraries.",
+                "operationId": "storeReservation",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "origin",
+                                    "destination",
+                                    "departure_time",
+                                    "itineraries"
+                                ],
+                                "properties": {
+                                    "origin": {
+                                        "description": "Origin location",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "JFK"
+                                    },
+                                    "destination": {
+                                        "description": "Destination location",
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "LAX"
+                                    },
+                                    "departure_time": {
+                                        "description": "Departure time",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "example": "2024-09-18T10:30:00Z"
+                                    },
+                                    "itineraries": {
+                                        "description": "List of itineraries",
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "origin",
+                                                "destination",
+                                                "departure_time",
+                                                "arrival_time"
+                                            ],
+                                            "properties": {
+                                                "origin": {
+                                                    "description": "Origin location for itinerary",
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "JFK"
+                                                },
+                                                "destination": {
+                                                    "description": "Destination location for itinerary",
+                                                    "type": "string",
+                                                    "maxLength": 255,
+                                                    "example": "LAX"
+                                                },
+                                                "departure_time": {
+                                                    "description": "Departure time for itinerary",
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-18T10:30:00Z"
+                                                },
+                                                "arrival_time": {
+                                                    "description": "Arrival time for itinerary",
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-18T13:30:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Reservation created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "reserve": {
+                                            "properties": {
+                                                "origin": {
+                                                    "type": "string",
+                                                    "example": "JFK"
+                                                },
+                                                "destination": {
+                                                    "type": "string",
+                                                    "example": "LAX"
+                                                },
+                                                "departure_time": {
+                                                    "type": "string",
+                                                    "format": "date-time",
+                                                    "example": "2024-09-18T10:30:00Z"
+                                                },
+                                                "itineraries": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "origin": {
+                                                                "type": "string",
+                                                                "example": "JFK"
+                                                            },
+                                                            "destination": {
+                                                                "type": "string",
+                                                                "example": "LAX"
+                                                            },
+                                                            "departure_time": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-09-18T10:30:00Z"
+                                                            },
+                                                            "arrival_time": {
+                                                                "type": "string",
+                                                                "format": "date-time",
+                                                                "example": "2024-09-18T13:30:00Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Internal Server Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Airports",
+            "description": "Airports"
+        },
+        {
+            "name": "Flights",
+            "description": "Flights"
+        },
+        {
+            "name": "Reservations",
+            "description": "Reservations"
+        }
+    ]
+}
